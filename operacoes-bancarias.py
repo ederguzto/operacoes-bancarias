@@ -1,86 +1,118 @@
-menu = ""
 
-saldo = 0
 
-deposito = 0
-entrada = 0
-
-saque = 0
-saida = 0
-
-SAQUE_DIARIO = 3
-
-print(f'''
+tela = (f'''
     ------- MENU ------
     [e] - Extrato
     [d] - Depostiar
     [s] - Sacar
     [q] - Sair
-    -------------------
-    ''')
+    ''') # Menu de para exibir após operações executadas
 
-opcao = input(f'''    Digite uma opção: {menu}''')
+print(f'''{tela}
+    ''') # Inicio do programa
+
+menu = ('e','d','s','q','t') # Operações aceitas
+
+saldo = 0 # Saldo inicial
+
+deposito = 0 # Saldo de depósito inicial
+
+transacoes = []
+
+entrada = 0 # Movimentação inicial
+
+saque = 0 # Saldo de depósito inicial
+
+saida = 0 # Movimentação inicial
+
+SAQUE_DIARIO = 3 # Limite de saques diários
+
+opcao = input(f'''    Digite uma operação: ''').lower() # Input das operações à serem feitas
+
 while True:
-
-    if opcao == "e":
-        print(f'''
-    -- MOVIMENTAÇÕES --
-    Entradas: R${entrada}
-    Saídas: R${saida}
-    Saldo: R${saldo}
-    -------------------
-    [e] - Extrato
-    [d] - Depostiar
-    [s] - Sacar
-    [q] - Sair
-    ''')
-        opcao = input(f'''    Digite uma opção: {menu}''')
-        
-    if opcao == "d":
-        
-        deposito = float(input(f'''
-    ----- DEPÓSITO -----
-    
-    Digite o valor de depósito: '''))
-        if deposito != 0 and deposito > 0:
-            entrada += deposito
-            saldo += deposito
+    match opcao:
+        case 't':
             print(f'''
-    Você depositou R${deposito}
+    Você cancelou a operação anterior!
+        {tela}
+    ''')    
+            opcao = input(f'''    Digite uma operação: ''').lower()
 
-    --------------------
-    [e] - Extrato
-    [d] - Depostiar
-    [s] - Sacar
-    [q] - Sair
-    ''')
-        else:
-            print('''   #### ERRO ###   ''')
-        
-        opcao = input(f'''    Digite uma opção: {menu}''')
-
-    if opcao == "s":
-        
-        saque = float(input(f'''
-    ------- SACAR -------
-    
-    Digite o valor de saque: '''))
-        if saque != 0 and saque > 0:
-            saida -= saque
-            saldo -= saque
+        case 'e':
             print(f'''
-    Você sacou R${saque}
+    ----- EXTRATO -----''')
+            for transacao in transacoes:
+                tipo, valor = transacao
+                if tipo == 'd':
+                    
+                    print(f'    Entrada: R${valor:.2f}')
+                elif tipo == 's':
+                    print(f'    Saída: R${valor:.2f}')
+                else:
+                    print(f'Sem transações')
+            print(f'    Saldo atual: {saldo}')
+            opcao = input(f'''{tela}
+    Digite uma operação: ''').lower()
 
-    ---------------------
-    [e] - Extrato
-    [d] - Depostiar
-    [s] - Sacar
-    [q] - Sair
-    ''')
-        else:
-            print('''   #### ERRO ###   ''')
+        case 'd':
+            
+            
+            deposito = input(f'''
+    ---- DEPOSITAR ----
         
-        opcao = input(f'''    Digite uma opção: {menu}''')
-    
-    if opcao == "q":
-        break
+    Digite o valor de depósito: ''')
+            if float(deposito) > 0:
+                transacoes.append (('d', (float(deposito))))
+                entrada += float(deposito)
+                saldo += float(deposito)
+                opcao = input(f'''
+    Você depositou R${deposito}{tela}
+    Digite uma operação: ''').lower()
+            
+            else:
+                deposito = input('''
+    Digite um valor válido: ''')
+            
+                opcao = input(f'''    Digite uma operação: ''').lower()
+
+        case 's':
+            saque = float(input(f'''
+    ------ SACAR ------
+        
+    Digite o valor de saque ou [t] para cancelar: '''))
+            if SAQUE_DIARIO != 0 and saldo != 0:
+                transacoes.append (('s', float(saque)))
+                saida += saque
+                saldo -= saque
+                SAQUE_DIARIO -= 1
+                print(f'''
+    Você sacou R${saque}''')
+                print(tela)
+                opcao = input(f'''    
+    Digite uma operação: ''').lower()
+            elif saque > saldo:
+                print('''
+    Saldo insuficiente''')
+                print(tela)
+                opcao = input(f'''    
+    Digite uma operação: ''').lower()
+            else:
+                print('''
+    #### Limite de saque diário atingido! ###''')
+                print(tela)
+            
+                opcao = input(f'''    
+    Digite uma operação: ''').lower()
+
+        case 'q':
+            break
+
+        case _:
+            opcao = input(f'''    {tela}
+    Digite uma operação válida: ''').lower()
+
+    # TRATAR OPERAÇÕES
+        # if opcao.lower() != ('q','e','s','d','t'):
+        #     print(tela)
+        #     opcao = str(input("Digite uma operação válida, Q E S D: "))
+        # # # Valida se a operação existe
