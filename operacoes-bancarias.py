@@ -1,33 +1,22 @@
-
-
 tela = (f'''
     ------- MENU ------
     [e] - Extrato
     [d] - Depostiar
     [s] - Sacar
     [q] - Sair
-    ''') # Menu de para exibir após operações executadas
-
-print(f'''{tela}
-    ''') # Inicio do programa
-
-menu = ('e','d','s','q','t') # Operações aceitas
-
-saldo = 0 # Saldo inicial
-
-deposito = 0 # Saldo de depósito inicial
+    ''')
 
 transacoes = []
+deposito = 0
+saque = 0
+entrada = 0
+saida = 0
+saldo = 0
+SAQUE_DIARIO = 3
 
-entrada = 0 # Movimentação inicial
-
-saque = 0 # Saldo de depósito inicial
-
-saida = 0 # Movimentação inicial
-
-SAQUE_DIARIO = 3 # Limite de saques diários
-
-opcao = input(f'''    Digite uma operação: ''').lower() # Input das operações à serem feitas
+print(f'''{tela}
+    ''')
+opcao = input(f'''    Digite uma operação: ''').lower()
 
 while True:
     match opcao:
@@ -55,8 +44,6 @@ while True:
     Digite uma operação: ''').lower()
 
         case 'd':
-            
-            
             deposito = input(f'''
     ---- DEPOSITAR ----
         
