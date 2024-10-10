@@ -80,7 +80,7 @@ while True:
     ------ SACAR ------
         
     Digite o valor de saque ou [t] para cancelar: '''))
-            if SAQUE_DIARIO != 0 and saldo != 0:
+            if SAQUE_DIARIO != 0 and saldo != 0: # posso usar len() pra ver quantos tipo 's' tem na variavel transacoes e se = 3 ele nao deixa realizar o saque
                 transacoes.append (('s', float(saque)))
                 saida += saque
                 saldo -= saque
@@ -110,9 +110,3 @@ while True:
         case _:
             opcao = input(f'''    {tela}
     Digite uma operação válida: ''').lower()
-
-    # TRATAR OPERAÇÕES
-        # if opcao.lower() != ('q','e','s','d','t'):
-        #     print(tela)
-        #     opcao = str(input("Digite uma operação válida, Q E S D: "))
-        # # # Valida se a operação existe
